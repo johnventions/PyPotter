@@ -20,17 +20,18 @@ import threading
 from threading import Thread
 from statistics import mean 
 from CountsPerSec import CountsPerSec
-from HassApi import HassApi
+
+#python .\PyPotter.py http://10.0.0.14:8080/?action=stream
 
 # Check for required number of arguments
-if (len(sys.argv) < 4):
-    print("Incorrect number of arguments. Required Arguments: [video source url] [home assistant URL] [API token]")
+if (len(sys.argv) < 1):
+    print("Incorrect number of arguments. Required Arguments: [video source url]")
     sys.exit(0)
 
 # Parse Required Arguments
 videoSource = sys.argv[1]
-hassUrl = sys.argv[2]
-hassRestToken = sys.argv[3]
+# hassUrl = sys.argv[2]
+# hassRestToken = sys.argv[3]
 
 # Parse Optional Arguments
 IsRemoveBackground = True
@@ -38,8 +39,8 @@ IsShowOutputWindows = True
 IsTraining = False
 IsDebugFps = False
 
-if (len(sys.argv) >= 5):
-    IsRemoveBackground = sys.argv[4] == "True"
+if (len(sys.argv) >= 2):
+    IsRemoveBackground = sys.argv[2] == "True"
 
 if (len(sys.argv) >= 6):
     IsShowOutputWindows = sys.argv[5] == "True"
@@ -50,8 +51,6 @@ if (len(sys.argv) >= 7):
 if (len(sys.argv) >= 8):
     IsDebugFps = sys.argv[7] == "True"
 
-# Initialize Home Assistant Rest API Wrapper
-hass = HassApi(hassUrl, hassRestToken)
 
 # Constants
 DesiredFps = 42
@@ -195,19 +194,26 @@ def PerformSpell(spell):
     Make the desired Home Assistant REST API call based on the spell
     """
     if (spell=="incendio"):
-        hass.TriggerAutomation("automation.wand_incendio")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_incendio")
     elif (spell=="aguamenti"):
-        hass.TriggerAutomation("automation.wand_aguamenti")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_aguamenti")
     elif (spell=="alohomora"):
-        hass.TriggerAutomation("automation.wand_alohomora")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_alohomora")
     elif (spell=="silencio"):
-        hass.TriggerAutomation("automation.wand_silencio")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_silencio")
     elif (spell=="specialis_revelio"):
-        hass.TriggerAutomation("automation.wand_specialis_revelio")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_specialis_revelio")
     elif (spell=="revelio"):
-        hass.TriggerAutomation("automation.wand_revelio")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_revelio")
     elif (spell == "tarantallegra"):
-        hass.TriggerAutomation("automation.wand_tarantallegra")
+        print(spell)
+        #hass.TriggerAutomation("automation.wand_tarantallegra")
 
 def CheckForPattern(wandTracks, exampleFrame):
     """
@@ -459,7 +465,7 @@ while True:
         videoCapture = cv2.VideoCapture(videoSource)
 
     # Check for ESC key, if pressed shut everything down
-    if (cv2.waitKey(1) is 27):
+    if (cv2.waitKey(1) == 27):
         break
 
 # Shutdown PyPotter
